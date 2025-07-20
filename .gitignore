@@ -1,0 +1,37 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# PyCharm / JetBrains
+.idea/
+
+
+
+# macOS Finder cruft
+.DS_Store
+
+# Env files
+*.env
+
+# SQLite (اختياري: تجاهله إذا ليس بيانات إنتاجية)
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# Tests & tools
+.pytest_cache/
+.mypy_cache/
+.pylint.d/
+.cache/
+htmlcov/
+
+# Alembic migrations (اختياري)
+migrations/

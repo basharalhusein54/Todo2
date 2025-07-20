@@ -1,0 +1,12 @@
+POST http://localhost:8000/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "12345678"
+}
+
+###
+POST http://localhost:8000/auth/refresh
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc1Mjg5ODU4Mi4yMTY0MTZ9.UAKKegsWbu3IwPucnvYeTIT-JF2G1Z7nZEJlk_xDHGvZmhDcwPww8Cwg8MTFItUK99wGaGcCA_Bj3Ch2gcj4LjX37w4KdZQeVqnOiSHnM4fu3FaOyvqzOy66Xf4jiOydE21YoBCw30-UyL4yK4UXjvi_lC9bAvd7eY9915GiOd109L57xBlx9IUHbqk2NhNH2DJEdm4nRsxn9Rw23H4Fn-TwVHTyCM8AuzH9UlVBicQjkEEygr_IsNuqKo0dUZCp4kmPgmEz2q_sXp08Tz8nfTbTFotWalbd9aZwTTlYayLntIsOYIp53X_4ZFIs2U7zigClCmd5Wu_GiHH_Gh7-6w
