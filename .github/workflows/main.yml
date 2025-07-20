@@ -54,6 +54,18 @@ jobs:
           echo "❌ Application failed to respond."
           exit 1
 
+      - name: test create user
+        run: |
+          curl -X POST http://localhost:8000/users/ \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "username": "admin",
+              "email": "admin@hotmail.com",
+              "password": "12345678",
+              "first_name": "admin",
+              "last_name": "admin"
+            }
       - name: 🔐 Test /auth/login endpoint
         run: |
           curl -X POST http://127.0.0.1:8000/auth/login \
