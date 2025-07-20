@@ -7,8 +7,8 @@ import os
 class Settings(BaseSettings):
     database_url: str
     #don't change this very important for Github Secret variables
-    rsa_private_key = os.getenv("RSA_PRIVATE_KEY")
-    rsa_public_key = os.getenv("RSA_PUBLIC_KEY")
+    rsa_private_key:str = os.getenv("RSA_PRIVATE_KEY")
+    rsa_public_key:str = os.getenv("RSA_PUBLIC_KEY")
 
     jwt_algorithm: str
     jwt_exp_minutes: int
