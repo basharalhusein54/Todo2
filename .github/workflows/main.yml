@@ -42,7 +42,7 @@ jobs:
 
       - name: Run Unit testing
         run: |
-        pytest
+          pytest
 
       - name: 🛑 Stop FastAPI application
         if: always()
