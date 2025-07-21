@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
     if user_data:
         try:
             crud_users.get_user_by_username(db, user_data["username"], {"sub": "admin", "role": "superuser"})
-            print(f"ℹ️ Superuser '{user_data["username"]}' already exists.")
+            print(f"ℹ️ Superuser '{user_data["username"]}' already exists..")
         except HTTPException as e:
             if e.status_code == 404:
                 # User not found, create superuser
