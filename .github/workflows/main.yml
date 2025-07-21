@@ -31,46 +31,17 @@ jobs:
       - name: 📥 Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirpements.txt
+          pip install -r requirements.txt
 
       - name: 🚀 Start FastAPI application in background
         run: |
           uvicorn app.main:app --host 127.0.0.1 --port 8000 &
           echo $! > uvicorn_pid.txt
-          sleep 5
 
-      - name: 🧪 Wait and verify application is running
+      - name: Run Unit Testing
         run: |
-          echo "🔍 Attempting to connect to the running application..."
-          for i in {1..10}; do
-            if curl -f http://127.0.0.1:8000/; then
-              echo "✅ Application responded successfully."
-              exit 0
-            else
-              echo "⏳ Waiting for app... Attempt $i"
-              sleep 2
-            fi
-          done
-          echo "❌ Application failed to respond."
-          exit 1
-
-      - name: test create user
-        run: |
-          curl -X POST http://127.0.0.1:8000/users/ \
-            -H "Accept: application/json" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "username": "admin",
-              "email": "admin@hotmail.com",
-              "password": "12345678",
-              "first_name": "admin",
-              "last_name": "admin"
-            }'
-      - name: 🔐 Test /auth/login endpoint
-        run: |
-          curl -X POST http://127.0.0.1:8000/auth/login \
-          -H "Content-Type: application/json" \
-          -d '{"username": "admin", "password": "12345678"}'
+          pytest
+      
 
       - name: 🛑 Stop FastAPI application
         if: always()
