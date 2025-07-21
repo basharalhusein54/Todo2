@@ -1,9 +1,12 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 from app.main import app
-from app.api import auth
 
 client = TestClient(app)
+
+
+
+
 def test_login():
     response = client.post(url="/auth/login",
                            json={"username":"admin","password":"12345678"})

@@ -1,7 +1,9 @@
+from pydantic import EmailStr
 from sqlalchemy.exc import IntegrityError, OperationalError,SQLAlchemyError
 from fastapi.exceptions import HTTPException
 from fastapi import status
 from app.models.users import Users
+from app.schemas.users import UsersAdd
 from app.core.security import hash_password
 
 def read_all(db):
@@ -17,6 +19,7 @@ def create_user(user_obj,db):
     try:
         db.commit()
         db.refresh(user_obj)
+        return {"username": user_obj.username,"email":user_obj.email}
     except IntegrityError as e:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail=str(e.__cause__) if e.__cause__ else str(e))

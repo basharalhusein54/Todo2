@@ -4,12 +4,12 @@ from pydantic import BaseModel, EmailStr, Field
 
 class UsersBase(BaseModel):
     username: Optional[str]=Field(title="Username",max_length=50,default=None)
-    email : Optional[EmailStr] = Field(title="Email",max_length=50,default=None)
+    email : Optional[EmailStr] = Field(title="Email",max_length=100,default=None)
     password: Optional[str]=Field(title="Password",min_length=8,max_length=50
                                    ,default=None)
     first_name:Optional[str]=Field(title="First Name",max_length=50,default=None)
     last_name:Optional[str]=Field(title="Last Name",max_length=50,default=None)
-    is_active:Optional[bool]=Field(title="Is Active",max_length=50,default=True)
+    is_active:Optional[bool]=Field(title="Is Active", default=True)
 
     model_config = {
         "from_attributes": True
