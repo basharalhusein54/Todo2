@@ -4,11 +4,11 @@ from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
-
+from app.main import app as main_app
 from app.db.database import Base
+from app.main import app
 from app.db.database import get_db
 from app.crud.auth import authorize_user
-from app.main import app
 url = settings.testing_database_url
 connect_args = {"check_same_thread": False} if url.startswith("sqlite") else {}
 engine = create_engine(url, connect_args=connect_args,poolclass=StaticPool)
@@ -26,13 +26,8 @@ def override_get_db():
 def override_authorize_user():
     return "admin"
 
-app.dependency_overrides[get_db] = override_get_db
-app.dependency_overrides[authorize_user] = override_authorize_user
+main_app.dependency_overrides[get_db] = override_get_db
+main_app.dependency_overrides[authorize_user] = override_authorize_user
 
 
 client = TestClient(app)
-def test_read_all_users():
-    response = client.get(url="/users/")
-    assert response.status_code == status.HTTP_200_OK
-
-

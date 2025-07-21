@@ -10,3 +10,5 @@ class Users(Base):
     first_name = Column(String)
     last_name = Column(String)
     is_active = Column(Boolean)
+    role = Column(String,default='user')
+    is_superuser = Column(Boolean,nullable=False,default=False,index=True,unique=True)

@@ -9,8 +9,9 @@ from app.crud import todo as crud_todo
 router = APIRouter(prefix="/todos", tags=["Todos"])
 
 db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[str,Depends(authorize_user)]
 @router.get("/", status_code=status.HTTP_200_OK)
-async def read_all(db:db_dependency,current_user:str=Depends(authorize_user)):
+async def read_all(current_user:user_dependency, db:db_dependency):
     return crud_todo.read_all(db)
 
 @router.get("/{todo_id}", status_code=status.HTTP_200_OK)

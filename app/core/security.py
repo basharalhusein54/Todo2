@@ -19,22 +19,21 @@ def verify_password(plain: str, hashed: str):
         return False
 
 
-private_key = settings.rsa_private_key
-public_key = settings.rsa_public_key
 
-def create_access_token(sub: str):
+def create_access_token(sub: str,role:str):
     data = {"sub":sub,
-            "exp":(datetime.now(UTC) + timedelta(minutes=settings.jwt_exp_minutes)).timestamp()}
-    return jwt.encode(data, private_key, algorithm=settings.jwt_algorithm)
+            "exp":(datetime.now(UTC) + timedelta(minutes=settings.jwt_exp_minutes)).timestamp(),
+            "role":role}
+    return jwt.encode(data, settings.rsa_private_key, algorithm=settings.jwt_algorithm)
 
 def create_refresh_token(sub: str):
     data = {"sub":sub,
             "exp":(datetime.now(UTC) + timedelta(minutes=settings.jwt_exp_days)).timestamp()}
-    return jwt.encode(data, private_key, algorithm=settings.jwt_algorithm)
+    return jwt.encode(data, settings.rsa_private_key, algorithm=settings.jwt_algorithm)
 
 def verify_token(token: str):
     try:
-        token_payload = jwt.decode(token, public_key, algorithms=[settings.jwt_algorithm])
+        token_payload = jwt.decode(token, settings.rsa_public_key, algorithms=[settings.jwt_algorithm])
         return token_payload
     except ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,

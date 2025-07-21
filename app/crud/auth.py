@@ -21,9 +21,7 @@ def authenticate_user(login_obj,db,response):
 
 security_scheme = HTTPBearer()
 def authorize_user(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)):
-    token_payload = security.verify_token(credentials.credentials)
-    print(token_payload)
-    return token_payload.get('sub')
+    return security.verify_token(credentials.credentials)
 
 def refresh(request,response):
     refresh_token = request.cookies.get("refresh_token")
@@ -33,7 +31,7 @@ def refresh(request,response):
     payload = security.verify_token(refresh_token)
     access_token = security.create_access_token(payload.get("sub"))
     response.set_cookie("access_token", access_token, httponly=True)
-    return {"access_token": access_token}
+
 
 
 

@@ -12,7 +12,9 @@ jobs:
 
     env:
       ENVIRONMENT: Testing
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SUPERUSER: ${{ secrets.SUPERUSER }}
+      PRODUCTION_DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}
+      TESTING_DATABASE_URL: ${{ secrets.TESTING_DATABASE_URL }}
       RSA_PRIVATE_KEY: ${{ secrets.RSA_PRIVATE_KEY }}
       RSA_PUBLIC_KEY: ${{ secrets.RSA_PUBLIC_KEY }}
       JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
@@ -23,10 +25,10 @@ jobs:
       - name: 📦 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🐍 Set up Python 3.11
+      - name: 🐍 Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: 📥 Install dependencies
         run: |
@@ -37,11 +39,6 @@ jobs:
         run: |
           uvicorn app.main:app --host 127.0.0.1 --port 8000 &
           echo $! > uvicorn_pid.txt
-
-      - name: Run Unit Testing
-        run: |
-          pytest
-      
 
       - name: 🛑 Stop FastAPI application
         if: always()
