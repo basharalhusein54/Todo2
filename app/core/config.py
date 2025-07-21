@@ -8,8 +8,9 @@ import json
 class Settings(BaseSettings):
     production_database_url: str
     testing_database_url:str
+
     superuser:dict
-    #don't change this very important for Github Secret variables
+
     rsa_private_key:str
     rsa_public_key:str
 
