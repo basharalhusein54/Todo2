@@ -1,19 +1,22 @@
 from datetime import datetime, timedelta,UTC
 import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
-from passlib.context import CryptContext
-from starlette import status
-from starlette.exceptions import HTTPException
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+from fastapi import status
+from fastapi.exceptions import HTTPException
 
 from app.core.config import settings
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
+ph = PasswordHasher()
 def hash_password(password: str):
-    return pwd_context.hash(password)
+    return ph.hash(password)
 
 def verify_password(plain: str, hashed: str):
-    return pwd_context.verify(plain, hashed)
+    try:
+        return ph.verify(hashed, plain)
+    except VerifyMismatchError:
+        return False
 
 
 private_key = settings.rsa_private_key

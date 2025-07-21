@@ -35,3 +35,7 @@ htmlcov/
 
 # Alembic migrations (اختياري)
 migrations/
+
+#http files
+*.http
+HTTP/

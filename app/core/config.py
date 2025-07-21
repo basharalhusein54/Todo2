@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     jwt_exp_minutes: int
     jwt_exp_days: int
 
-    class Config:
-        env_file = None if os.environ.get("ENVIRONMENT") == "Testing" else ".env"
-
+    model_config = {
+        "env_file": None if os.environ.get("ENVIRONMENT") == "Testing" else ".env"
+    }
 settings = Settings()

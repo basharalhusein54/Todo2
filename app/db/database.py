@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from app.core.config import settings
 url = settings.database_url
 connect_args = {"check_same_thread": False} if url.startswith("sqlite") else {}
