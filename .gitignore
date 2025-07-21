@@ -39,3 +39,4 @@ migrations/
 #http files
 *.http
 HTTP/
+test/

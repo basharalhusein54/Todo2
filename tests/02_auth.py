@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-from fastapi import status
 from sqlalchemy import create_engine, StaticPool
 from sqlalchemy.orm import sessionmaker
 
