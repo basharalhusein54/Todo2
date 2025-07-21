@@ -20,7 +20,7 @@ class UserCreate(BaseModel):
                 "password": "12345678",
                 "first_name": "John",
                 "last_name": "Wick",
-                "role": "user"
+                "is_active": True,
             }
         }
     }

@@ -39,7 +39,11 @@ jobs:
         run: |
           uvicorn app.main:app --host 127.0.0.1 --port 8000 &
           echo $! > uvicorn_pid.txt
-          sleep 10
+
+      - name: Run Unit testing
+        run: |
+        pytest
+
       - name: 🛑 Stop FastAPI application
         if: always()
         run: |
