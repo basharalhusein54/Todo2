@@ -12,7 +12,7 @@ ph = PasswordHasher()
 def hash_password(password: str):
     return ph.hash(password)
 
-def verify_password(plain: str, hashed: str):
+def verify_password(hashed: str, plain: str):
     try:
         return ph.verify(hashed, plain)
     except VerifyMismatchError:
@@ -26,9 +26,10 @@ def create_access_token(sub: str,role:str):
             "role":role}
     return jwt.encode(data, settings.rsa_private_key, algorithm=settings.jwt_algorithm)
 
-def create_refresh_token(sub: str):
-    data = {"sub":sub,
-            "exp":(datetime.now(UTC) + timedelta(minutes=settings.jwt_exp_days)).timestamp()}
+def create_refresh_token(sub: str,role:str):
+    data = {"sub": sub,
+            "exp": (datetime.now(UTC) + timedelta(minutes=settings.jwt_exp_minutes)).timestamp(),
+            "role": role}
     return jwt.encode(data, settings.rsa_private_key, algorithm=settings.jwt_algorithm)
 
 def verify_token(token: str):

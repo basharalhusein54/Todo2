@@ -11,8 +11,8 @@ class Settings(BaseSettings):
 
     superuser:dict
 
-    rsa_private_key:str
-    rsa_public_key:str
+    rsa_private_key:str=os.getenv("RSA_PRIVATE_KEY")
+    rsa_public_key:str=os.getenv("RSA_PUBLIC_KEY")
 
     jwt_algorithm: str
     jwt_exp_minutes: int
@@ -28,7 +28,8 @@ class Settings(BaseSettings):
                 self.superuser = json.loads(os.getenv("SUPERUSER"))
             except json.decoder.JSONDecodeError as e:
                 raise ValueError(f"Invalid SUPERUSER JSON: {e}")
-        self.rsa_private_key = os.getenv("RSA_PRIVATE_KEY")
-        self.rsa_public_key = os.getenv("RSA_PUBLIC_KEY")
+            if os.environ.get("ENVIRONMENT") == "Testing":
+                self.rsa_private_key = os.getenv("RSA_PRIVATE_KEY")
+                self.rsa_public_key = os.getenv("RSA_PUBLIC_KEY")
 settings = Settings()
 settings.load_runtime_values()

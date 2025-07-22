@@ -10,11 +10,11 @@ def authenticate_user(login_obj,db,response):
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="User not found")
-    if not security.verify_password(login_obj.password, user.password):
+    if not security.verify_password(user.password,login_obj.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Incorrect username or password")
-    access_token = security.create_access_token(login_obj.username)
-    refresh_token = security.create_refresh_token(login_obj.username)
+    access_token = security.create_access_token(user.username,user.role)
+    refresh_token = security.create_refresh_token(user.username,user.role)
     response.set_cookie("access_token", access_token,  httponly=True)
     response.set_cookie("refresh_token", refresh_token, httponly=True)
     return {"access_token": access_token, "refresh_token": refresh_token}
@@ -29,8 +29,9 @@ def refresh(request,response):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="Could not refresh token log in again")
     payload = security.verify_token(refresh_token)
-    access_token = security.create_access_token(payload.get("sub"))
+    access_token = security.create_access_token(payload.get("sub"),payload.get("role"))
     response.set_cookie("access_token", access_token, httponly=True)
+    return {"access_token": access_token}
 
 
 

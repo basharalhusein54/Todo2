@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, model_validator
 
 
 class UserCreate(BaseModel):
@@ -37,7 +37,7 @@ class UserUpdate(BaseModel):
         "from_attributes": True,
         "json_schema_extra": {
             "example": {
-                "username": "username",
+                "username": "johnwick",
                 "email": "johnwick@example.com",
                 "password": "12345678",
                 "first_name": "John",
@@ -56,4 +56,27 @@ class UserShow(BaseModel):
     role: str
     model_config = {
         "from_attributes": True
+    }
+
+class ChangePasswordSchema(BaseModel):
+    username: Optional[str] = Field(default=None, max_length=50)
+    email: Optional[EmailStr] = Field(default=None, max_length=50)
+    old_password: str = Field(..., min_length=8)
+    new_password: str = Field(..., min_length=8)
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_username_or_email(cls, data):
+        if not data.get("username") and not data.get("email"):
+            raise ValueError("Either username or email must be provided.")
+        return data
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
+            "example": {
+                "username": "username",  # Or use "email": "johnwick@example.com"
+                "old_password": "12345678",
+                "new_password": "87654321"
+            }
+        }
     }
