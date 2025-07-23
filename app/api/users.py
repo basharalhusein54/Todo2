@@ -17,13 +17,13 @@ user_dependency = Annotated[dict, Depends(authorize_user)]
 async def get_users(db: db_dependency, current_user: user_dependency):
     return crud_users.get_users(db, current_user)
 
-@router.get("/get_user/{username}", status_code=status.HTTP_200_OK)
+@router.get("/get_user_byusername/{username}", status_code=status.HTTP_200_OK)
 async def get_user(db: db_dependency, username: str, current_user: user_dependency):
     return  crud_users.get_user_by_username(db, username, current_user)
 
-@router.get("/get_user/{user_id}", status_code=status.HTTP_200_OK)
+@router.get("/get_user_byid/{user_id}", status_code=status.HTTP_200_OK)
 async def get_user(db: db_dependency, user_id: int, current_user: user_dependency):
-    return  crud_users.get_user_by_username(db, user_id, current_user)
+    return  crud_users.get_user_by_id(db, user_id, current_user)
 
 @router.post("/create_user", status_code=status.HTTP_201_CREATED)
 async def create_user(user_obj: UserCreate, db: db_dependency, current_user: user_dependency):

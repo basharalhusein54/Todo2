@@ -31,6 +31,7 @@ def get_user_by_username(db, username,current_user):
 def get_user_by_id(db, user_id:int,current_user):
     check_ability(current_user)
     results = db.query(Users).filter(Users.id == user_id).first()
+    print(results)
     if results:
         return UserShow.model_validate(results)
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
