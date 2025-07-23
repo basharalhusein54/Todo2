@@ -13,7 +13,8 @@ from app.crud import users as crud_users
 from app.schemas.users import UserCreate
 
 
-from fastapi import HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+# Allow CORS from frontend (React, etc.)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -45,7 +46,13 @@ app = FastAPI(lifespan=lifespan,title="ToDo API",
         "email": "bashar@example.com",
     })
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Replace "*" with specific domains for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(todos_router)
 app.include_router(users_router)
 app.include_router(auth_router)
